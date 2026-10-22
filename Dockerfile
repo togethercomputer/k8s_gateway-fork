@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} docker.io/library/golang:1.26.10-alpine AS builder
+FROM --platform=${BUILDPLATFORM} docker.io/library/golang:1.26.10-alpine3.23 AS builder
 
 ARG LDFLAGS
 ARG VERSION=dev
@@ -27,7 +27,7 @@ ENV CGO_ENABLED=0 \
 RUN go build -ldflags "-s -w -X github.com/coredns/coredns/coremain.GitCommit=${REVISION} -X main.pluginVersion=${VERSION}" -o coredns cmd/coredns.go
 
 # Update CA Certs
-FROM docker.io/library/alpine:3.21 AS certs
+FROM docker.io/library/alpine:3.23 AS certs
 
 RUN apk --update --no-cache add ca-certificates
 
